@@ -1,9 +1,9 @@
-## Requisitos
-Python >= 3.12
-
 # Como usar
-Por enquanto o programa só monitora os produtos do site da **Kabum**. Basta copiar o link do produto que deseja monitorar, colar no espaço vazio e clicar em **"Adicionar"**. Depois, para ele ficar monitorando, clique em **"Monitorar"**.
+* Baixe o executável da pasta dist e abre o programa.
+* Copie o arquivo do produto e cole no espaço vazio, depois clique em adicionar.
+* Após a verificação, o programa cria uma pasta chamada "Sheets" onde estão todos os produtos que você adicionou.
+* Para monitorar os produtos adicionados, basta clicar em **monitorar**.
 
-![image](https://github.com/joaomatheusars/Monitor-de-Preco/assets/51250239/eb3ff3da-ef3c-4024-a327-13cba654f1ec)
+![image](https://github.com/joaomatheusars/scrapingprice/assets/51250239/eff62b42-497c-4230-96c4-9956e19351d6)
 
-Para verificar o resultado da monitoração do produto, o sistema irá criar uma pasta chamada **"sheets"** com todos os produtos que adicionar.
+Por enquanto o programa só monitora os produtos do site da **Kabum**.
