@@ -40,7 +40,6 @@ class Kabum():
         today = date.today()
         day = today.strftime("%d/%m/%Y")        
         
-        print(f"#####################################################{name}")
         data.append(name)
         data.append(day)
         data.append(regularPrice)
