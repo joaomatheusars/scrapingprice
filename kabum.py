@@ -40,13 +40,14 @@ class Kabum():
         today = date.today()
         day = today.strftime("%d/%m/%Y")        
         
-        data.append(name)
-        data.append(day)
-        data.append(regularPrice)
-        data.append(price)
+        if name != "":
+            data.append(name)
+            data.append(day)
+            data.append(regularPrice)
+            data.append(price)
 
-        self.create_sheet(name, data)
+            self.create_sheet(name, data)
     
     def create_sheet(self, name, data):
         Sheet(name).check(data)
-        function.config_sheet_file(self.link)  
+        function.config_sheet_file(self.link)

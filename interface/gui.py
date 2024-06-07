@@ -7,8 +7,8 @@ from os import startfile, getcwd
 from interface.cp_buttons import buttons as bt
 
 class ComboBoxFrame(customtkinter.CTkFrame):
-    def __init__(self, master, **kwargs):
-        super().__init__(master, **kwargs)
+    def __init__(self, master , **kwargs):
+        super().__init__(master , **kwargs)
         self.grid_columnconfigure(0, weight=1)
         self.choice = "Selecione um Produto."
 
@@ -164,7 +164,6 @@ class App(customtkinter.CTk):
                                  sticky="ewns", ipadx=8, ipady=8)
 
         self.title("Monitor de Preço")
-        self.geometry("500x500+1500+100")
-        # self.minsize(400, 165)
-        # self.maxsize(400, 165)
+        self.minsize(600, 245)
+        self.maxsize(600, 245)
         self.mainloop()
