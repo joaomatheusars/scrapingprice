@@ -3,31 +3,50 @@ from typing import Union, Callable, Any
 import threading
 from kabum import Kabum
 from interface import function
-from os import startfile, getcwd
+from os import startfile, getcwd, path, remove
 from interface.cp_buttons import buttons as bt
 
 class ComboBoxFrame(customtkinter.CTkFrame):
     def __init__(self, master , **kwargs):
         super().__init__(master , **kwargs)
         self.grid_columnconfigure(0, weight=1)
+        self.path = f'{path.expanduser("~")}/AppData/Roaming'
         self.choice = "Selecione um Produto."
 
-        self.combobox = customtkinter.CTkComboBox(
-            self, values=function.check_file_sheets(), command=self.callback)
-        self.combobox.grid(row=0, column=0, padx=8, pady=8,
-                           sticky="ewn")
+        frame = customtkinter.CTkFrame(master=self, fg_color="transparent")
+        frame.grid(row=0, column=0, sticky="ew")
+        frame.grid_columnconfigure(0, weight=1)
+
+        frame2 = customtkinter.CTkFrame(master=self, fg_color="transparent")
+        frame2.grid(row=1, column=0, sticky="ew")
+        
+        self.combobox = customtkinter.CTkComboBox(frame, values=function.check_file_sheets(), command=self.callback, state="readonly")
+        self.combobox.grid(row=0, column=0, padx=8, pady=8, sticky="ew")
         self.combobox.set(self.choice)
 
-        self.btn_open = bt(self,
-            text='Abrir', bg_color='#3ab42f', hover_color='#49E13B', command=self.action_btn_open)
-        self.btn_open.grid(row=0, column=1, padx=8, pady=8, stick='nesw')
+        self.btn_open = bt(frame2, text='Abrir', bg_color='#3ab42f', hover_color='#49E13B', command=self.action_btn_open)
+        self.btn_open.grid(row=0, column=0, padx=8, pady=8, stick='nesw')
         
-        self.btn_refresh = bt(self, text='Recarregar', bg_color='#22619c', hover_color='#2B7AC3', command=self.refresh)
-        self.btn_refresh.grid(row=0, column=2, padx=8, pady=8, stick='nesw')
+        self.btn_refresh = bt(frame2, text='Recarregar', bg_color='#22619c', hover_color='#2B7AC3', command=self.refresh)
+        self.btn_refresh.grid(row=0, column=1, padx=8, pady=8, stick='nesw')
+
+        self.btn_remove = bt(frame2,text='Remove', bg_color='#FF3131', hover_color='#FF3129', command=self.remove)
+        self.btn_remove.grid(row=0, column=2, padx=8, pady=8, stick='nesw')
 
         self.popframe = PopFrame(master=self.master)
 
+    def remove(self):
+        if self.choice == "Selecione um Produto.":
+            self.popframe.mensage("Selecione um Produto.")
+            return
+        
+        function.remove_link(self.choice.replace(".xlsx",""))
+        remove(f'{self.path}/sheets/{self.choice}')
+        self.combobox.set("Selecione um Produto.")
+        self.refresh()
+
     def refresh(self):
+        self.combobox.set("Selecione um Produto.")
         self.combobox.configure(values=function.check_file_sheets())
         
     def callback(self, choice):
@@ -39,7 +58,7 @@ class ComboBoxFrame(customtkinter.CTkFrame):
             return
 
         self.popframe.grid_remove()
-        startfile(f'{getcwd()}/sheets/{self.choice}')
+        startfile(f'{self.path}/sheets/{self.choice}')
 
 class PopFrame(customtkinter.CTkFrame):
     def __init__(self, master, **kwargs):
@@ -77,8 +96,7 @@ class SearchFrame(customtkinter.CTkFrame):
             text='Adicionar', bg_color='#3ab42f', hover_color='#49E13B', command=self.action_adicionar)
         self.btn_adicionar.grid(row=1, column=0, padx=8, stick='nesw')
 
-        self.btn_monitorar = bt(self,
-            text='Monitorar', bg_color='#22619c', hover_color='#2B7AC3', command=self.action_monitorar)
+        self.btn_monitorar = bt(self,text='Monitorar', bg_color='#22619c', hover_color='#2B7AC3', command=self.action_monitorar)
         self.btn_monitorar.grid(row=1, column=1, padx=8, stick='nesw')
 
     def action_adicionar(self):
@@ -164,6 +182,6 @@ class App(customtkinter.CTk):
                                  sticky="ewns", ipadx=8, ipady=8)
 
         self.title("Monitor de Preço")
-        self.minsize(600, 245)
-        self.maxsize(600, 245)
+        self.minsize(600, 300)
+        self.maxsize(600, 300)
         self.mainloop()

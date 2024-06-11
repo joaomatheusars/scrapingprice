@@ -50,4 +50,4 @@ class Kabum():
     
     def create_sheet(self, name, data):
         Sheet(name).check(data)
-        function.config_sheet_file(self.link)
+        function.config_sheet_file(self.link, name)

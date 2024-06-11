@@ -1,9 +1,9 @@
 from interface.gui import App
+from interface.function import verification
 import os.path 
 
 def main():
-    if not os.path.exists('Sheets'):
-        os.mkdir('Sheets')
+    verification()
     app = App() 
     
 if __name__ == "__main__":
